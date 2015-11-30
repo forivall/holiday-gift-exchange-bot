@@ -42,7 +42,7 @@ const transporter = nodemailer.createTransport(mailTransport);
 // const hashcash = require('nodemailer-hashcash');
 // nodemailerTransport.use('compile', hashcash(options));
 
-const ver = 1;
+const ver = 2;
 
 asyncEach(matches, function(match, callback) {
   let giver = match[0];
@@ -53,7 +53,7 @@ asyncEach(matches, function(match, callback) {
     to: "" + giver.name + " <" + giver.email + ">",
     subject: "Family Gift Exchange information!",
     text: "The recipient for your gift is " + recipient.name + "! Merry Christmas!\n\n(v" + ver + ")",
-    html: "The recipient for your gift is <b>" + recipient.name + "</b>! <i>Merry Christmas!</i>\n\n(v" + ver + ")"
+    html: "The recipient for your gift is <b>" + recipient.name + "</b>! <i>Merry Christmas!</i><br><br>(v" + ver + ")"
   };
 
   if (giver.emailIsShared) {
@@ -61,9 +61,9 @@ asyncEach(matches, function(match, callback) {
   }
 
   transporter.sendMail(mailOptions, function(err, info) {
-    if (error){
-      console.log(error);
-      return callback(error);
+    if (err){
+      console.log(err);
+      return callback(err);
     }
     console.log('Message sent: ' + info.response + ' from ' + mailOptions.from + ' to ' + mailOptions.to);
     callback();
